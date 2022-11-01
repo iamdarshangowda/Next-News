@@ -29,7 +29,6 @@ placeHolder: "rgba(7,45,75,0.3)"
 },
     palette: {
         primary: {
-        light: "#2F9FF8",
           main: "#072D4B",
         },
         secondary: {

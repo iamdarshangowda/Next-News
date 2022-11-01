@@ -9,7 +9,7 @@ export const IntroPage = () => {
 
   const handleContinue = () => {
     setLoading(true);
-    router.push("/dashboard");
+    router.push("/topstories");
     setLoading(false);
   };
 
@@ -31,7 +31,7 @@ export const IntroPage = () => {
             <Typography
               fontSize={{ xs: "4rem", sm: "6rem" }}
               fontWeight={700}
-              color={(theme: Theme) => theme.palette.primary.main}
+              color={(theme: Theme) => theme.palette.secondary.main}
               lineHeight={1}
             >
               Next News
@@ -39,7 +39,7 @@ export const IntroPage = () => {
             <Typography
               fontSize={16}
               fontWeight={700}
-              color={(theme: Theme) => theme.palette.primary.light}
+              color={(theme: Theme) => theme.palette.secondary.light}
               pl={"4px"}
             >
               Now the power of knowledge on your screens.
