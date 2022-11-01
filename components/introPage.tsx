@@ -51,8 +51,13 @@ export const IntroPage = () => {
           <PrimaryButton
             text="Continue"
             loading={loading}
+            variant={"contained"}
             onclick={handleContinue}
-            sx={{ width: "200px", height: "48px" }}
+            sx={{
+              width: "200px",
+              height: "48px",
+              borderRadius: "24px",
+            }}
           />
         </Box>
       </Box>

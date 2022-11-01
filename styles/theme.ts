@@ -43,7 +43,7 @@ placeHolder: "rgba(7,45,75,0.3)"
           main: "#FF3030",
         },
         background: {
-          default: "#f4f9f8;",
+          default: "#F4F9F8;",
         },
       },
 })

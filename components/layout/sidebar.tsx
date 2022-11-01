@@ -5,11 +5,9 @@ import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
 import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
 import SportsBaseballIcon from "@mui/icons-material/SportsBaseball";
-import MenuIcon from "@mui/icons-material/Menu";
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import MuiDrawer from "@mui/material/Drawer";
 import Image from "next/image";
 import {
@@ -23,20 +21,21 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Stack,
   styled,
   Theme,
-  Toolbar,
   Typography,
   useTheme,
 } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { Topbar } from "./topbar";
 
-const drawerWidth = 240;
+const drawerWidth = 230;
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
+  backgroundColor: theme.palette.background.default,
+  border: "none",
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.enteringScreen,
@@ -51,6 +50,8 @@ const closedMixin = (theme: Theme): CSSObject => ({
   }),
   overflowX: "hidden",
   width: `calc(${theme.spacing(7)} + 1px)`,
+  border: "none",
+  backgroundColor: theme.palette.background.default,
   [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
@@ -61,30 +62,9 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "flex-end",
   padding: theme.spacing(0, 1),
+  backgroundColor: theme.palette.background.default,
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
-}));
-
-interface AppBarProps extends MuiAppBarProps {
-  open?: boolean;
-}
-
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
-})<AppBarProps>(({ theme, open }) => ({
-  zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(["width", "margin"], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
 }));
 
 const Drawer = styled(MuiDrawer, {
@@ -107,7 +87,7 @@ const Drawer = styled(MuiDrawer, {
 export const Sidebar = () => {
   const router = useRouter();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleDrawer = () => {
     setOpen(!open);
@@ -160,25 +140,11 @@ export const Sidebar = () => {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawer}
-            edge="start"
-            sx={{
-              marginRight: 5,
-              ...(open && { display: "none" }),
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Mini variant drawer
-          </Typography>
-        </Toolbar>
-      </AppBar>
+      <Topbar
+        open={open}
+        drawerWidth={drawerWidth}
+        handleDrawer={handleDrawer}
+      />
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <Box
@@ -190,10 +156,10 @@ export const Sidebar = () => {
           >
             <Image src="/news.png" width={30} height={35} alt="next news" />
             <Typography
-              fontSize={24}
+              fontSize={18}
               fontWeight={700}
               color={(theme: Theme) => theme.palette.secondary.main}
-              lineHeight={1}
+              lineHeight={"21px"}
             >
               Next News
             </Typography>
@@ -210,27 +176,37 @@ export const Sidebar = () => {
         <List>
           {DrawerDataTop.map((item: any, index: number) => (
             <ListItem key={index} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
+              <Link href={item.link} legacyBehavior>
+                <ListItemButton
                   sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
                   }}
+                  selected={router.pathname == item.link}
                 >
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText
-                  primary={item.title}
-                  sx={{ opacity: open ? 1 : 0 }}
-                />
-              </ListItemButton>
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                      color: (theme: Theme) => theme.palette.primary.main,
+                    }}
+                  >
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={item.title}
+                    sx={{
+                      opacity: open ? 1 : 0,
+                      color: (theme: Theme) => theme.palette.primary.main,
+                      fontWeight: 400,
+                      fontSize: "15px",
+                      lineHeight: "18px",
+                    }}
+                  />
+                </ListItemButton>
+              </Link>
             </ListItem>
           ))}
         </List>
@@ -238,27 +214,37 @@ export const Sidebar = () => {
         <List>
           {DrawerDataCenter.map((item: any, index: number) => (
             <ListItem key={index} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
+              <Link href={item.link} legacyBehavior>
+                <ListItemButton
                   sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
                   }}
+                  selected={router.pathname == item.link}
                 >
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText
-                  primary={item.title}
-                  sx={{ opacity: open ? 1 : 0 }}
-                />
-              </ListItemButton>
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                      color: (theme: Theme) => theme.palette.primary.main,
+                    }}
+                  >
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={item.title}
+                    sx={{
+                      opacity: open ? 1 : 0,
+                      color: (theme: Theme) => theme.palette.primary.main,
+                      fontWeight: 400,
+                      fontSize: "15px",
+                      lineHeight: "18px",
+                    }}
+                  />
+                </ListItemButton>
+              </Link>
             </ListItem>
           ))}
         </List>
@@ -266,27 +252,37 @@ export const Sidebar = () => {
         <List>
           {DrawerDataBottom.map((item: any, index: number) => (
             <ListItem key={index} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
+              <Link href={item.link} legacyBehavior>
+                <ListItemButton
                   sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
                   }}
+                  selected={router.pathname == item.link}
                 >
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText
-                  primary={item.title}
-                  sx={{ opacity: open ? 1 : 0 }}
-                />
-              </ListItemButton>
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                      color: (theme: Theme) => theme.palette.primary.main,
+                    }}
+                  >
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={item.title}
+                    sx={{
+                      opacity: open ? 1 : 0,
+                      color: (theme: Theme) => theme.palette.primary.main,
+                      fontWeight: 400,
+                      fontSize: "15px",
+                      lineHeight: "18px",
+                    }}
+                  />
+                </ListItemButton>
+              </Link>
             </ListItem>
           ))}
         </List>
