@@ -33,7 +33,7 @@ import { Topbar } from "./topbar";
 const drawerWidth = 230;
 
 const openedMixin = (theme: Theme): CSSObject => ({
-  width: drawerWidth,
+  maxWidth: drawerWidth,
   backgroundColor: theme.palette.background.default,
   border: "none",
   transition: theme.transitions.create("width", {
@@ -84,7 +84,10 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-export const Sidebar = () => {
+interface Props {
+  props: any;
+}
+export const Sidebar: React.FunctionComponent<Props> = ({ props }) => {
   const router = useRouter();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -95,7 +98,7 @@ export const Sidebar = () => {
 
   const DrawerDataTop = [
     {
-      link: "/topstories",
+      link: "/topstories?tab=All",
       title: "Top Stories",
       icon: <HomeIcon />,
     },
@@ -287,6 +290,9 @@ export const Sidebar = () => {
           ))}
         </List>
       </Drawer>
+      <Box component="main" width="100%" mt={9}>
+        {props.children}
+      </Box>
     </Box>
   );
 };

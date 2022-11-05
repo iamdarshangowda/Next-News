@@ -6,9 +6,6 @@ import { useRouter } from "next/router";
 export const Layout = (props: any) => {
   const router = useRouter();
   return (
-    <Box>
-      <Box component="main">{props.children}</Box>
-      {router.pathname === "/" ? null : <Sidebar />}
-    </Box>
+    <Box>{router.pathname === "/" ? null : <Sidebar props={props} />}</Box>
   );
 };
