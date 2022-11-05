@@ -6,6 +6,7 @@ declare module "@mui/material/styles" {
         description:string;
         label: string;
         placeHolder:string;
+        white: string
       };
     }
     interface ThemeOptions {
@@ -13,6 +14,7 @@ declare module "@mui/material/styles" {
         description?:string;
         label?: string;
         placeHolder?:string;
+        white?:string
       };
     }
   }
@@ -25,11 +27,11 @@ fontFamily:["Roboto", "sans-serif"].join(",")
 custom: {
 description: "rgba(7,45,75,0.6)",
 label: "rgba(7,45,75,0.4)",
-placeHolder: "rgba(7,45,75,0.3)"
+placeHolder: "rgba(7,45,75,0.3)",
+white: "#fff"
 },
     palette: {
         primary: {
-        light: "#2F9FF8",
           main: "#072D4B",
         },
         secondary: {
@@ -44,7 +46,7 @@ placeHolder: "rgba(7,45,75,0.3)"
           main: "#FF3030",
         },
         background: {
-          default: "#f4f9f8;",
+          default: "#F4F9F8;",
         },
       },
 })

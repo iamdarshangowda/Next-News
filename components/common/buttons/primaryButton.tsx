@@ -1,6 +1,6 @@
 import React from "react";
 import { LoadingButton } from "@mui/lab";
-import { Typography } from "@mui/material";
+import { Theme, Typography } from "@mui/material";
 
 interface ButtonProps {
   text: string;
@@ -8,6 +8,10 @@ interface ButtonProps {
   onclick: any;
   sx?: any;
   fullWidth?: boolean;
+  variant: any;
+  icon?: any;
+  textColor?: any;
+  subText?: string;
 }
 
 export const PrimaryButton: React.FunctionComponent<ButtonProps> = ({
@@ -16,25 +20,45 @@ export const PrimaryButton: React.FunctionComponent<ButtonProps> = ({
   onclick,
   sx,
   fullWidth,
+  variant,
+  icon,
+  textColor,
+  subText,
 }) => {
   return (
     <LoadingButton
-      variant="contained"
+      variant={variant}
       loading={loading}
       size="large"
       onClick={onclick}
-      sx={{ ...sx, borderRadius: "24px", boxShadow: "none" }}
+      sx={{ ...sx, boxShadow: "none" }}
       fullWidth={fullWidth ? fullWidth : false}
     >
       <Typography
-        fontSize={"16px"}
-        fontWeight={700}
+        fontSize={"15px"}
+        fontWeight={400}
         variant="body1"
         component={"p"}
         textTransform={"none"}
+        pr={1}
+        sx={{ color: (theme: Theme) => theme.palette.primary.main }}
       >
         {text}
       </Typography>
+      {subText && (
+        <Typography
+          fontSize={"15px"}
+          fontWeight={500}
+          variant="body1"
+          component={"p"}
+          textTransform={"none"}
+          pr={1}
+          sx={{ color: (theme: Theme) => theme.palette.secondary.light }}
+        >
+          {subText}
+        </Typography>
+      )}
+      {icon}
     </LoadingButton>
   );
 };
