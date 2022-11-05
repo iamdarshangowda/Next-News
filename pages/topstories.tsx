@@ -1,10 +1,13 @@
-import { Box, Container, Theme, Typography } from "@mui/material";
+import { Box, Container, Grid, Stack, Theme, Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { LongCards } from "../components/common/cards/longCards";
+import { LongCard } from "../components/common/cards/longCard";
+import { ShortCard } from "../components/common/cards/shortCard";
+import { WeatherCard } from "../components/common/cards/weatherCard";
 import { HeaderText } from "../components/common/headerText";
 import ScrollableTabsButtonAuto from "../components/common/tabs/ScrollableTabs";
+import { get } from "../config/axiosClients";
 
 const tabOption = [
   "All",
@@ -29,6 +32,16 @@ const TopStories: NextPage<Props> = ({ query }) => {
     router.replace(`/topstories?tab=${state}`);
   };
 
+  const getNewsData = async () => {
+    await get(`top-headlines?country=in`).then((res) =>
+      console.log(res.data.body)
+    );
+  };
+
+  useEffect(() => {
+    getNewsData();
+  }, []);
+
   useEffect(() => {
     tabOption.forEach((item: string, index: number) => {
       if (item == router.query.tab) {
@@ -39,15 +52,30 @@ const TopStories: NextPage<Props> = ({ query }) => {
 
   return (
     <Container maxWidth="xl">
-      <Box>
-        <HeaderText text="Top Stories for you" />
-        <ScrollableTabsButtonAuto
-          tabOption={tabOption}
-          handleTabRoute={handleTabRoute}
-          defaultIndex={tabIndex}
-        />
-        <LongCards />
-      </Box>
+      <HeaderText text="Top Stories for you" />
+      <Grid container spacing={1}>
+        <Grid item xs={12} sm={8}>
+          <ScrollableTabsButtonAuto
+            tabOption={tabOption}
+            handleTabRoute={handleTabRoute}
+            defaultIndex={tabIndex}
+          />
+          <Grid container columnSpacing={1}>
+            <Grid item xs={12}>
+              <LongCard />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <ShortCard />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <ShortCard />
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <WeatherCard />
+        </Grid>
+      </Grid>
     </Container>
   );
 };

@@ -57,7 +57,7 @@ const ScrollableTabsButtonAuto: React.FunctionComponent<TabProps> = ({
   }, [defaultIndex]);
 
   return (
-    <Box>
+    <Box my={2}>
       <Tabs
         value={value}
         onChange={handleChange}
