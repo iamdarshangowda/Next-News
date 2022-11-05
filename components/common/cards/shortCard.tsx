@@ -1,17 +1,24 @@
 import React from "react";
 import Typography from "@mui/material/Typography";
-import { Box, Button, Grid, IconButton, Stack, Theme } from "@mui/material";
+import { Box, Grid, IconButton, Stack, Theme } from "@mui/material";
 import IosShareIcon from "@mui/icons-material/IosShare";
 import BeenhereIcon from "@mui/icons-material/Beenhere";
-import Image from "next/image";
+import Link from "next/link";
+import moment from "moment";
 
-export const ShortCard = () => {
+interface ShortCardProps {
+  data: any;
+}
+
+export const ShortCard: React.FunctionComponent<ShortCardProps> = ({
+  data,
+}) => {
   return (
     <Grid
       container
       sx={{
         maxWidth: 422,
-        maxHeight: 200,
+        minHeight: 200,
         background: (theme: Theme) => theme.custom.white,
         borderRadius: "8px",
       }}
@@ -19,30 +26,36 @@ export const ShortCard = () => {
       p={1}
     >
       <Grid item xs={12} md={7}>
-        <Typography
-          fontSize={17}
-          fontWeight={500}
-          sx={{ color: (theme: Theme) => theme.palette.primary.main }}
-          px={1}
-          pt={1}
-        >
-          Samsung Galaxy F22 launched in India
-        </Typography>
+        <Link href={data?.url} legacyBehavior>
+          <a target="_blank">
+            <Typography
+              fontSize={17}
+              fontWeight={500}
+              sx={{
+                color: (theme: Theme) => theme.palette.primary.main,
+                cursor: "pointer",
+              }}
+              px={1}
+              pt={1}
+            >
+              {data?.title.substring(0, 40)}
+            </Typography>
+          </a>
+        </Link>
         <Typography
           fontSize={14}
           fontWeight={400}
           sx={{ color: (theme: Theme) => theme.custom.description }}
           px={1}
         >
-          Samsung Galaxy F22 has been launched in India. The new smartphone has
-          been priced in the mid-range segment
+          {data?.description.substring(0, 150)}
         </Typography>
       </Grid>
       <Grid item xs={12} md={5} p={1}>
         <img
           width={"100%"}
           height={"100%"}
-          src="/test/iphone.jpg"
+          src={data?.urlToImage}
           alt="green iguana"
           style={{ objectFit: "cover", borderRadius: "4px" }}
         />
@@ -54,7 +67,7 @@ export const ShortCard = () => {
             fontWeight={400}
             sx={{ color: (theme: Theme) => theme.custom.label }}
           >
-            The Mint
+            {data?.source?.name}
           </Typography>
         </Box>
         <Box p={"4px"}>
@@ -63,7 +76,7 @@ export const ShortCard = () => {
             fontWeight={400}
             sx={{ color: (theme: Theme) => theme.custom.label }}
           >
-            15 mins ago
+            {moment(data?.publishedAt).startOf("hour").fromNow()}
           </Typography>
         </Box>
         <Box>

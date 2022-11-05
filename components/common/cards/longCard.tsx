@@ -1,11 +1,18 @@
 import React from "react";
 import Typography from "@mui/material/Typography";
-import { Box, Button, Grid, IconButton, Stack, Theme } from "@mui/material";
+import { Box, Grid, IconButton, Stack, Theme } from "@mui/material";
 import IosShareIcon from "@mui/icons-material/IosShare";
 import BeenhereIcon from "@mui/icons-material/Beenhere";
-import Image from "next/image";
+import Link from "next/link";
+import moment from "moment";
 
-export const LongCard = () => {
+interface LongCardProps {
+  newsData: any;
+}
+
+export const LongCard: React.FunctionComponent<LongCardProps> = ({
+  newsData,
+}) => {
   return (
     <Grid
       container
@@ -25,7 +32,7 @@ export const LongCard = () => {
           px={1}
           pt={1}
         >
-          Samsung Galaxy F22 launched in India: Price, features, other details
+          {newsData?.title}
         </Typography>
         <Typography
           fontSize={14}
@@ -33,9 +40,7 @@ export const LongCard = () => {
           sx={{ color: (theme: Theme) => theme.custom.description }}
           px={1}
         >
-          Samsung Galaxy F22 has been launched in India. The new smartphone has
-          been priced in the mid-range segment. The new smartphone is powered by
-          a MediaTek chipset and features a high refresh rate AMOLED display.
+          {newsData?.description}
         </Typography>
         <Stack mt={1} direction={"row"} spacing={{ xs: 1, sm: 2, md: 4 }}>
           <Box p={"4px"}>
@@ -44,7 +49,7 @@ export const LongCard = () => {
               fontWeight={400}
               sx={{ color: (theme: Theme) => theme.custom.label }}
             >
-              The Mint
+              {newsData?.source?.name}
             </Typography>
           </Box>
           <Box p={"4px"}>
@@ -53,7 +58,7 @@ export const LongCard = () => {
               fontWeight={400}
               sx={{ color: (theme: Theme) => theme.custom.label }}
             >
-              15 mins ago
+              {moment(newsData?.publishedAt).startOf("hour").fromNow()}
             </Typography>
           </Box>
           <Box>
@@ -100,7 +105,7 @@ export const LongCard = () => {
         <img
           width={"100%"}
           height={"100%"}
-          src="/test/iphone.jpg"
+          src={newsData?.urlToImage}
           alt="green iguana"
           style={{ objectFit: "cover", borderRadius: "4px" }}
         />

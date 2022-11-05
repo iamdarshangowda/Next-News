@@ -9,13 +9,13 @@ import { HeaderText } from "../components/common/headerText";
 import ScrollableTabsButtonAuto from "../components/common/tabs/ScrollableTabs";
 import { get } from "../config/axiosClients";
 
-const tabOption = ["All", "Android", "Cricket", "Apple", "Tech", "Tesla"];
+const tabOption = ["All", "Russia", "Climate", "Economy", "Science", "Oil"];
 
 interface Props {
   query: any;
 }
 
-const TopStories: NextPage<Props> = ({ query }) => {
+const AroundTheWorld: NextPage<Props> = ({ query }) => {
   const router = useRouter();
   const [tabState, setTabState] = useState<string>(query.tab);
   const [tabIndex, setTabIndex] = useState<number>(0);
@@ -26,12 +26,12 @@ const TopStories: NextPage<Props> = ({ query }) => {
 
   const handleTabRoute = (state: string) => {
     setTabState(state);
-    router.replace(`/topstories?tab=${state}`);
+    router.replace(`/aroundtheworld?tab=${state}`);
   };
 
   const getNewsData = async () => {
     setLoading(true);
-    await get(`top-headlines?country=in&q=${tabState}`).then((res) => {
+    await get(`top-headlines?q=${tabState}`).then((res) => {
       const filteredData = res.data.articles.filter((item: any) => {
         if (item.description && item.urlToImage && item.url) {
           return item;
@@ -57,7 +57,7 @@ const TopStories: NextPage<Props> = ({ query }) => {
 
   return (
     <Container maxWidth="xl">
-      <HeaderText text="India Top Stories for you" />
+      <HeaderText text="World Top Stories for you" />
       <Grid container spacing={1}>
         <Grid item xs={12} sm={8}>
           <ScrollableTabsButtonAuto
@@ -88,8 +88,8 @@ const TopStories: NextPage<Props> = ({ query }) => {
   );
 };
 
-export default TopStories;
+export default AroundTheWorld;
 
-TopStories.getInitialProps = async ({ query }) => {
+AroundTheWorld.getInitialProps = async ({ query }) => {
   return { query };
 };

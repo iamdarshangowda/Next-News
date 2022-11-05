@@ -103,7 +103,7 @@ export const Sidebar: React.FunctionComponent<Props> = ({ props }) => {
       icon: <HomeIcon />,
     },
     {
-      link: "/aroundtheworld",
+      link: "/aroundtheworld?tab=All",
       title: "Around The World",
       icon: <LanguageIcon />,
     },
