@@ -7,7 +7,7 @@ import { ShortCard } from "../components/common/cards/shortCard";
 import { WeatherCard } from "../components/common/cards/weatherCard";
 import { HeaderText } from "../components/common/headerText";
 import ScrollableTabsButtonAuto from "../components/common/tabs/ScrollableTabs";
-import { get } from "../config/axiosClients";
+import { getNews } from "../config/axiosClients";
 
 const tabOption = ["All", "Russia", "Climate", "Economy", "Science", "Oil"];
 
@@ -31,7 +31,7 @@ const AroundTheWorld: NextPage<Props> = ({ query }) => {
 
   const getNewsData = async () => {
     setLoading(true);
-    await get(`top-headlines?q=${tabState}`).then((res) => {
+    await getNews(`top-headlines?q=${tabState}`).then((res) => {
       const filteredData = res.data.articles.filter((item: any) => {
         if (item.description && item.urlToImage && item.url) {
           return item;

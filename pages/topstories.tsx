@@ -1,4 +1,4 @@
-import { Container, Grid, Skeleton } from "@mui/material";
+import { Container, Grid, Skeleton, Typography } from "@mui/material";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -7,7 +7,7 @@ import { ShortCard } from "../components/common/cards/shortCard";
 import { WeatherCard } from "../components/common/cards/weatherCard";
 import { HeaderText } from "../components/common/headerText";
 import ScrollableTabsButtonAuto from "../components/common/tabs/ScrollableTabs";
-import { get } from "../config/axiosClients";
+import { getNews, getWeather } from "../config/axiosClients";
 
 const tabOption = ["All", "Android", "Cricket", "Apple", "Tech", "Tesla"];
 
@@ -24,6 +24,8 @@ const TopStories: NextPage<Props> = ({ query }) => {
   const [topNewsData, setTopNewsData] = useState<any>();
   const [longCardData, setLongCardData] = useState<any>();
 
+  const [city, setCity] = useState<string>();
+
   const handleTabRoute = (state: string) => {
     setTabState(state);
     router.replace(`/topstories?tab=${state}`);
@@ -31,7 +33,7 @@ const TopStories: NextPage<Props> = ({ query }) => {
 
   const getNewsData = async () => {
     setLoading(true);
-    await get(`top-headlines?country=in&q=${tabState}`).then((res) => {
+    await getNews(`top-headlines?country=in&q=${tabState}`).then((res) => {
       const filteredData = res.data.articles.filter((item: any) => {
         if (item.description && item.urlToImage && item.url) {
           return item;
@@ -43,9 +45,25 @@ const TopStories: NextPage<Props> = ({ query }) => {
     });
   };
 
+  const getWeatherData = async () => {
+    setLoading(true);
+    await getWeather("weather", {
+      location: "sunnyvale",
+      format: "json",
+      u: "f",
+    }).then((res) => {
+      console.log(res.data);
+      setLoading(false);
+    });
+  };
+
   useEffect(() => {
     getNewsData();
   }, [tabState]);
+
+  useEffect(() => {
+    getWeatherData();
+  }, []);
 
   useEffect(() => {
     tabOption.forEach((item: string, index: number) => {
@@ -69,9 +87,15 @@ const TopStories: NextPage<Props> = ({ query }) => {
             <Skeleton height={300} />
           ) : (
             <Grid container columnSpacing={1}>
-              <Grid item xs={12}>
-                <LongCard newsData={longCardData} />
-              </Grid>
+              {longCardData ? (
+                <Grid item xs={12}>
+                  <LongCard newsData={longCardData} />
+                </Grid>
+              ) : (
+                <Typography fontSize={18} fontWeight={500} mx={"auto"} mt={2}>
+                  No News found on {tabState}
+                </Typography>
+              )}
               {topNewsData?.map((item: any, index: number) => (
                 <Grid item xs={12} sm={6} key={index}>
                   <ShortCard data={item} />
