@@ -24,6 +24,7 @@ const TopStories: NextPage<Props> = ({ query }) => {
   const [topNewsData, setTopNewsData] = useState<any>();
   const [longCardData, setLongCardData] = useState<any>();
 
+  const [weatherData, setWeatherData] = useState<any>();
   const [city, setCity] = useState<string>();
 
   const handleTabRoute = (state: string) => {
@@ -52,7 +53,7 @@ const TopStories: NextPage<Props> = ({ query }) => {
       format: "json",
       u: "f",
     }).then((res) => {
-      console.log(res.data);
+      setWeatherData(res.data);
       setLoading(false);
     });
   };
@@ -105,7 +106,7 @@ const TopStories: NextPage<Props> = ({ query }) => {
           )}
         </Grid>
         <Grid item xs={12} sm={4}>
-          <WeatherCard />
+          <WeatherCard data={weatherData} />
         </Grid>
       </Grid>
     </Container>

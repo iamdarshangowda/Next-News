@@ -27,8 +27,14 @@ export const Topbar: React.FunctionComponent<TopBarProps> = ({
   handleDrawer,
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [searchText, setSearchText] = useState<any>();
 
   const handleCovidNews = () => {};
+
+  const handleNewsSearch = (event: any) => {
+    setSearchText(event.target.value);
+    console.log(event.target.value);
+  };
 
   interface AppBarProps extends MuiAppBarProps {
     open?: boolean;
@@ -80,6 +86,8 @@ export const Topbar: React.FunctionComponent<TopBarProps> = ({
             placeholder="Search for news.."
             sx={{ maxWidth: "495px", height: "48px" }}
             icon={<SearchIcon />}
+            onchange={handleNewsSearch}
+            value={searchText}
           />
           <PrimaryButton
             text="Latest news on"
