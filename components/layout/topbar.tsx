@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
@@ -14,6 +14,7 @@ import { CustomInputFeild } from "../common/input-feilds/custom-input-feild";
 import { PrimaryButton } from "../common/buttons/primaryButton";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { Context } from "../../context/ContextProvider";
 
 interface TopBarProps {
   drawerWidth: number;
@@ -27,6 +28,29 @@ export const Topbar: React.FunctionComponent<TopBarProps> = ({
   handleDrawer,
 }) => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [searchBoxText, setSearchBoxText] = useState<string>("");
+  const searchInput = useRef<any>(null);
+
+  // const context = useContext(Context);
+  // const GlobalDetailsContext = context?.GlobalDetails;
+
+  // const { searchText } = GlobalDetailsContext?.state;
+
+  const handleNewsSearch = (value: any) => {
+    setSearchBoxText(value);
+    searchInput.current.focus();
+  };
+
+  // const changeGlobalContext = (status: string) => {
+  //   GlobalDetailsContext?.dispatch({
+  //     type: "search_text",
+  //     value: status,
+  //   });
+  // };
+
+  // useEffect(() => {
+  //   changeGlobalContext(searchBoxText);
+  // }, [searchBoxText]);
 
   const handleCovidNews = () => {};
 
@@ -77,9 +101,14 @@ export const Topbar: React.FunctionComponent<TopBarProps> = ({
           justifyContent={"space-between"}
         >
           <CustomInputFeild
+            refdata={searchInput}
             placeholder="Search for news.."
             sx={{ maxWidth: "495px", height: "48px" }}
             icon={<SearchIcon />}
+            onchange={handleNewsSearch}
+            value={searchBoxText}
+            type="text"
+            fieldName="search_text"
           />
           <PrimaryButton
             text="Latest news on"

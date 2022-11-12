@@ -3,7 +3,13 @@ import React from "react";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 
-export const WeatherCard = () => {
+interface WeatherProps {
+  data: any;
+}
+
+export const WeatherCard: React.FunctionComponent<WeatherProps> = ({
+  data,
+}) => {
   return (
     <Box
       maxWidth={422}
@@ -19,7 +25,7 @@ export const WeatherCard = () => {
           fontWeight={400}
           sx={{ color: (theme: Theme) => theme.palette.primary.main }}
         >
-          Bangalore, India
+          {data?.location?.city}, {data?.location?.country}
         </Typography>
         <LocationCityIcon />
       </Box>
@@ -31,14 +37,14 @@ export const WeatherCard = () => {
             fontWeight={400}
             sx={{ color: (theme: Theme) => theme.palette.primary.main }}
           >
-            Sunny
+            {data?.current_observation?.condition?.text}
           </Typography>
           <Typography
             fontSize={26}
             fontWeight={700}
             sx={{ color: (theme: Theme) => theme.palette.primary.main }}
           >
-            32C
+            {data?.current_observation?.condition?.temperature}F
           </Typography>
         </Box>
         <WbSunnyIcon />
