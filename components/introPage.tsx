@@ -7,6 +7,8 @@ export const IntroPage = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
+  console.log("hello");
+
   const handleContinue = () => {
     setLoading(true);
     router.push("/topstories");

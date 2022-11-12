@@ -85,10 +85,7 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-interface Props {
-  props: any;
-}
-export const Sidebar: React.FunctionComponent<Props> = ({ props }) => {
+export const Sidebar = () => {
   const router = useRouter();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -310,9 +307,6 @@ export const Sidebar: React.FunctionComponent<Props> = ({ props }) => {
           ))}
         </List>
       </Drawer>
-      <Box component="main" width="100%">
-        {props.children}
-      </Box>
     </Box>
   );
 };
