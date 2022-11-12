@@ -40,11 +40,6 @@ const TopStories: NextPage<Props> = ({ query }) => {
   const [weatherData, setWeatherData] = useState<any>();
   const [city, setCity] = useState<string>();
 
-  const context = useContext(Context);
-  const GlobalDetailsContext = context?.GlobalDetails;
-
-  const { searchText } = GlobalDetailsContext?.state;
-
   const handleTabRoute = (state: string) => {
     setTabState(state);
     router.replace(`/topstories?tab=${state}`);
