@@ -16,7 +16,7 @@ import { WeatherCard } from "../components/common/cards/weatherCard";
 import { HeaderText } from "../components/common/headerText";
 import { CustomInputFeild } from "../components/common/input-feilds/custom-input-feild";
 import ScrollableTabsButtonAuto from "../components/common/tabs/ScrollableTabs";
-import { getNews, getWeather } from "../config/axiosClients";
+import { getRealTimeNews, getWeather } from "../config/axiosClients";
 import { Context } from "../context/ContextProvider";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -50,18 +50,26 @@ const TopStories: NextPage<Props> = ({ query }) => {
     router.replace(`/topstories?tab=${state}`);
   };
 
-  const getNewsData = async (searchText?: any) => {
+  const getNewsData = async (searchQuery: string) => {
     setLoading(true);
-    await getNews(
-      `top-headlines?country=in&q=${searchText ? searchText : tabState}`
-    ).then((res) => {
-      const filteredData = res.data.articles.filter((item: any) => {
-        if (item.description && item.urlToImage && item.url) {
+    let params = {};
+    let endPoint = "";
+    if (searchQuery) {
+      endPoint = "search";
+      params = { query: searchQuery, country: "IN", lang: "en" };
+    } else {
+      endPoint = "top-headlines";
+      params = { country: "IN", lang: "en" };
+    }
+    await getRealTimeNews(`${endPoint}`, params).then((res) => {
+      const filteredData = res.data.data.filter((item: any) => {
+        if (item.photo_url) {
           return item;
         }
       });
       setLongCardData(filteredData[0]);
       setTopNewsData(filteredData.slice(1));
+
       setLoading(false);
     });
   };
@@ -79,7 +87,7 @@ const TopStories: NextPage<Props> = ({ query }) => {
   };
 
   useEffect(() => {
-    getNewsData();
+    getNewsData(tabState);
   }, [tabState]);
 
   useEffect(() => {

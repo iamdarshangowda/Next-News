@@ -40,7 +40,7 @@ export const LongCard: React.FunctionComponent<LongCardProps> = ({
           sx={{ color: (theme: Theme) => theme.custom.description }}
           px={1}
         >
-          {newsData?.description}
+          {newsData?.title}
         </Typography>
         <Stack mt={1} direction={"row"} spacing={{ xs: 1, sm: 2, md: 4 }}>
           <Box p={"4px"}>
@@ -49,7 +49,7 @@ export const LongCard: React.FunctionComponent<LongCardProps> = ({
               fontWeight={400}
               sx={{ color: (theme: Theme) => theme.custom.label }}
             >
-              {newsData?.source?.name}
+              {newsData?.source_url.split(".")[1]}
             </Typography>
           </Box>
           <Box p={"4px"}>
@@ -58,7 +58,9 @@ export const LongCard: React.FunctionComponent<LongCardProps> = ({
               fontWeight={400}
               sx={{ color: (theme: Theme) => theme.custom.label }}
             >
-              {moment(newsData?.publishedAt).startOf("hour").fromNow()}
+              {moment(newsData?.published_datetime_utc)
+                .startOf("hour")
+                .fromNow()}
             </Typography>
           </Box>
           <Box>
@@ -105,7 +107,7 @@ export const LongCard: React.FunctionComponent<LongCardProps> = ({
         <img
           width={"100%"}
           height={"100%"}
-          src={newsData?.urlToImage}
+          src={newsData?.photo_url}
           alt="green iguana"
           style={{ objectFit: "cover", borderRadius: "4px" }}
         />

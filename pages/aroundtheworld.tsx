@@ -7,7 +7,7 @@ import { ShortCard } from "../components/common/cards/shortCard";
 import { WeatherCard } from "../components/common/cards/weatherCard";
 import { HeaderText } from "../components/common/headerText";
 import ScrollableTabsButtonAuto from "../components/common/tabs/ScrollableTabs";
-import { getNews, getWeather } from "../config/axiosClients";
+import { getRealTimeNews, getWeather } from "../config/axiosClients";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { debounce } from "../utils/dataModifiers";
@@ -35,24 +35,32 @@ const AroundTheWorld: NextPage<Props> = ({ query }) => {
     router.replace(`/aroundtheworld?tab=${state}`);
   };
 
-  const getNewsData = async (searchText?: string) => {
+  const getNewsData = async (searchQuery: string) => {
     setLoading(true);
-    await getNews(`top-headlines?q=${searchText ? searchText : tabState}`).then(
-      (res) => {
-        const filteredData = res.data.articles.filter((item: any) => {
-          if (item.description && item.urlToImage && item.url) {
-            return item;
-          }
-        });
-        setLongCardData(filteredData[0]);
-        setTopNewsData(filteredData.slice(1));
-        setLoading(false);
-      }
-    );
+    let params = {};
+    let endPoint = "";
+    if (searchQuery) {
+      endPoint = "search";
+      params = { query: searchQuery, country: "US", lang: "en" };
+    } else {
+      endPoint = "top-headlines";
+      params = { country: "US", lang: "en" };
+    }
+    await getRealTimeNews(`${endPoint}`, params).then((res) => {
+      const filteredData = res.data.data.filter((item: any) => {
+        if (item.photo_url) {
+          return item;
+        }
+      });
+      setLongCardData(filteredData[0]);
+      setTopNewsData(filteredData.slice(1));
+
+      setLoading(false);
+    });
   };
 
   useEffect(() => {
-    getNewsData();
+    getNewsData(tabState);
   }, [tabState]);
 
   useEffect(() => {
