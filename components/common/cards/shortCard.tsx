@@ -26,7 +26,7 @@ export const ShortCard: React.FunctionComponent<ShortCardProps> = ({
       p={1}
     >
       <Grid item xs={12} md={7}>
-        <Link href={data?.url} legacyBehavior>
+        <Link href={data?.link} legacyBehavior>
           <a target="_blank">
             <Typography
               fontSize={17}
@@ -48,14 +48,14 @@ export const ShortCard: React.FunctionComponent<ShortCardProps> = ({
           sx={{ color: (theme: Theme) => theme.custom.description }}
           px={1}
         >
-          {data?.description.substring(0, 150)}
+          {data?.title.substring(0, 150)}
         </Typography>
       </Grid>
       <Grid item xs={12} md={5} p={1}>
         <img
           width={"100%"}
           height={"100%"}
-          src={data?.urlToImage}
+          src={data?.photo_url}
           alt="green iguana"
           style={{ objectFit: "cover", borderRadius: "4px" }}
         />
@@ -67,7 +67,7 @@ export const ShortCard: React.FunctionComponent<ShortCardProps> = ({
             fontWeight={400}
             sx={{ color: (theme: Theme) => theme.custom.label }}
           >
-            {data?.source?.name}
+            {data?.source_url.split(".")[1]}
           </Typography>
         </Box>
         <Box p={"4px"}>
@@ -76,7 +76,7 @@ export const ShortCard: React.FunctionComponent<ShortCardProps> = ({
             fontWeight={400}
             sx={{ color: (theme: Theme) => theme.custom.label }}
           >
-            {moment(data?.publishedAt).startOf("hour").fromNow()}
+            {moment(data?.published_datetime_utc).startOf("hour").fromNow()}
           </Typography>
         </Box>
         <Box>
