@@ -117,7 +117,7 @@ const TopStories: NextPage<Props> = ({ query }) => {
             maxWidth: "256px",
             height: "46px",
             borderRadius: "8px",
-            display: { sm: "none", md: "flex" },
+            display: { xs: "none", md: "flex" },
             background: (theme: Theme) => theme.palette.background.default,
           }}
           icon={<ArrowForwardIcon />}
