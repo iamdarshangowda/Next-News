@@ -9,6 +9,7 @@ import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MuiDrawer from "@mui/material/Drawer";
+import MenuIcon from "@mui/icons-material/Menu";
 import Image from "next/image";
 import {
   Box,
@@ -143,19 +144,20 @@ export const Sidebar: React.FunctionComponent<Props> = ({ props }) => {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <Topbar
+      {/* <Topbar
         open={open}
         drawerWidth={drawerWidth}
         handleDrawer={handleDrawer}
-      />
+      /> */}
+
       <Drawer variant="permanent" open={open}>
         <DrawerHeader>
           <Box
-            display={"flex"}
             flexDirection={"row"}
             alignItems={"center"}
             gap={2}
             mr={1}
+            sx={{ display: open ? "flex" : "none" }}
           >
             <Image src="/news.png" width={30} height={35} alt="next news" />
             <Typography
@@ -167,12 +169,30 @@ export const Sidebar: React.FunctionComponent<Props> = ({ props }) => {
               Next News
             </Typography>
           </Box>
-          <IconButton onClick={handleDrawer}>
+          <IconButton
+            onClick={handleDrawer}
+            sx={{
+              mt: 1,
+              display: open ? "block" : "none",
+            }}
+          >
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
             ) : (
               <ChevronLeftIcon />
             )}
+          </IconButton>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawer}
+            edge="start"
+            sx={{
+              mr: "4px",
+              display: open ? "none" : "block",
+            }}
+          >
+            <MenuIcon />
           </IconButton>
         </DrawerHeader>
         <Divider />
@@ -290,7 +310,7 @@ export const Sidebar: React.FunctionComponent<Props> = ({ props }) => {
           ))}
         </List>
       </Drawer>
-      <Box component="main" width="100%" mt={9}>
+      <Box component="main" width="100%">
         {props.children}
       </Box>
     </Box>

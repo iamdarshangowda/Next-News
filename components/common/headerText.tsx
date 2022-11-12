@@ -11,7 +11,6 @@ export const HeaderText: React.FunctionComponent<HeaderProps> = ({ text }) => {
       fontSize={20}
       fontWeight={700}
       sx={{ color: (theme: Theme) => theme.palette.primary.main }}
-      mb={2}
     >
       {text}
     </Typography>

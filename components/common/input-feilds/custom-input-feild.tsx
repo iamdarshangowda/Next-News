@@ -6,7 +6,10 @@ interface InputProps {
   sx: any;
   icon?: any;
   onchange?: any;
-  value: any;
+  value?: any;
+  type?: any;
+  fieldName?: any;
+  refdata?: any;
 }
 
 export const CustomInputFeild: React.FunctionComponent<InputProps> = ({
@@ -15,7 +18,13 @@ export const CustomInputFeild: React.FunctionComponent<InputProps> = ({
   icon,
   onchange,
   value,
+  type,
+  fieldName,
+  refdata,
 }) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onchange(event?.target.value);
+  };
   return (
     <TextField
       InputProps={{
@@ -37,9 +46,12 @@ export const CustomInputFeild: React.FunctionComponent<InputProps> = ({
       variant="standard"
       sx={sx}
       fullWidth
-      onChange={onchange}
+      onChange={handleInputChange}
       value={value}
-      type="text"
+      type={type ? type : "text"}
+      id={fieldName}
+      name={fieldName}
+      ref={refdata}
     />
   );
 };
